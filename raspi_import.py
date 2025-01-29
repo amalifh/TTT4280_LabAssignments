@@ -1,5 +1,7 @@
 import numpy as np
 import sys
+import matplotlib.pyplot as plt
+import numpy as np
 
 
 def raspi_import(path, channels=5):
@@ -35,5 +37,22 @@ def raspi_import(path, channels=5):
 
 # Import data from bin file
 if __name__ == "__main__":
-    sample_period, data = raspi_import(sys.argv[1] if len(sys.argv > 1)
-            else 'foo.bin')
+    sample_period, data = raspi_import(sys.argv[1] if len(sys.argv) > 1 else 'test7.bin')
+    
+    delta = 0.8e-3
+    channel_data = data[:,0]
+    channel_data *= delta
+
+    t = np.arange(0,1,1/31250)
+
+    plt.plot(t, channel_data)
+    plt.xlim(0,0.2)
+
+    plt.title('Sinusbølge med frekvens 100Hz')
+    plt.xlabel('Tid [s]')
+    plt.ylabel('Amplitude [V]')
+
+    #plt.show()
+
+    plt.savefig('sample7.png', dpi = 700)
+

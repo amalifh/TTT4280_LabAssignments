@@ -37,22 +37,43 @@ def raspi_import(path, channels=5):
 
 # Import data from bin file
 if __name__ == "__main__":
-    sample_period, data = raspi_import(sys.argv[1] if len(sys.argv) > 1 else 'test7.bin')
+    sample_period, data = raspi_import(sys.argv[1] if len(sys.argv) > 1 else 'test13.bin')
     
     delta = 0.8e-3
     channel_data = data[:,0]
-    channel_data *= delta
+    channel_data = (channel_data * delta) + 0.01
+
+    channel_data_2 = data[:,1]
+    channel_data_2 *= delta
+
+    channel_data_3 = data[:,2]
+    channel_data_3 *= delta
+
+    channel_data_4 = data[:,3]
+    channel_data_4 *= delta
+
+    channel_data_5 = data[:,4]
+    channel_data_5 *= delta
 
     t = np.arange(0,1,1/31250)
 
-    plt.plot(t, channel_data)
-    plt.xlim(0,0.2)
+    plt.plot(t, channel_data, label = 'ADC 1')
+    plt.plot(t, channel_data_2, label = 'ADC 2')
+    plt.plot(t, channel_data_3, label = 'ADC 3')
+    plt.plot(t, channel_data_4, label = 'ADC 4')
+    plt.plot(t, channel_data_5, label = 'ADC 5')
+
+
+    plt.xlim(0,0.03)
 
     plt.title('Sinusbølge med frekvens 100Hz')
     plt.xlabel('Tid [s]')
     plt.ylabel('Amplitude [V]')
 
-    #plt.show()
+    plt.legend()
 
-    plt.savefig('sample7.png', dpi = 700)
+
+    plt.show()
+
+    #plt.savefig('sample13_endelig.png', dpi = 700)
 

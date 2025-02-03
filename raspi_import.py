@@ -41,7 +41,7 @@ if __name__ == "__main__":
     
     delta = 0.8e-3
     channel_data = data[:,0]
-    channel_data = (channel_data * delta) + 0.01
+    channel_data *= delta
 
     channel_data_2 = data[:,1]
     channel_data_2 *= delta
@@ -70,10 +70,10 @@ if __name__ == "__main__":
     plt.xlabel('Tid [s]')
     plt.ylabel('Amplitude [V]')
 
-    plt.legend()
+    plt.legend(loc = 'upper right')
 
 
-    plt.show()
+    #plt.show()
 
-    #plt.savefig('sample13_endelig.png', dpi = 700)
+    plt.savefig('sample13_endelig.png', dpi = 700)
 

@@ -15,7 +15,12 @@ def raspi_import(path, channels=5):
 
 if __name__ == "__main__":
     sample_period, data = raspi_import(sys.argv[1] if len(sys.argv) > 1 else 'test10.bin')
-    channel_data = data[:,4] #ADC 1
+    channel_data = data[:,0] #ADC 1
+    channel_data2 = data[:,1]
+    channel_data3 = data[:,2]
+    channel_data4 = data[:,3]
+    channel_data5 = data[:,4]
+
 # FFT
     fft_data = fft(channel_data)
 # Frekvensakse
@@ -29,9 +34,10 @@ if __name__ == "__main__":
     magnitude_db_normalisert = magnitude_db - np.max(magnitude_db)
 # Plot
     plt.figure(figsize=(10, 6))
-    plt.plot(frekvenser[:n//2], magnitude_db_normalisert[:n//2]) 
+    plt.plot(frekvenser[:n//2], magnitude_db_normalisert[:n//2], label = 'ADC 1') 
     plt.xlabel('Frekvens (Hz)')
     plt.ylabel('Amplitude')
+    plt.legend()
     plt.xlim(0,200)
     #plt.ylim(0,400)
     plt.title('Frekvensspektrum av sinusbølge')

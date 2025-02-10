@@ -42,6 +42,7 @@ if __name__ == "__main__":
     plt.legend()
     #plt.xlim(0, 200)
     plt.title('Frekvensspektrum med Zero-Padding')
+    plt.grid()
     plt.show()
 
     # Save figure

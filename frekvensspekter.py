@@ -21,27 +21,25 @@ if __name__ == "__main__":
     channel_data4 = data[:,3]
     channel_data5 = data[:,4]
 
-# FFT
+
     fft_data = fft(channel_data)
-# Frekvensakse
+
     n = len(channel_data)
     frekvenser = fftfreq(n, d=sample_period)
-# Amplitude
+
     magnitude = np.abs(fft_data)
-#sx = np.square(magnitude) # i dB
+
     magnitude_db = 20 * np.log10(magnitude)
-# Normalisert amplitude
+
     magnitude_db_normalisert = magnitude_db - np.max(magnitude_db)
 
-    
-
-# Plot
     plt.figure(figsize=(10, 6))
     plt.plot(frekvenser[:n//2], magnitude_db_normalisert[:n//2], label = 'ADC 1') 
     plt.xlabel('Frekvens (Hz)')
     plt.ylabel('Amplitude')
     plt.legend()
     plt.xlim(0,200)
+    plt.grid()
     #plt.ylim(0,400)
     plt.title('Frekvensspektrum av sinusbølge')
     #plt.show()

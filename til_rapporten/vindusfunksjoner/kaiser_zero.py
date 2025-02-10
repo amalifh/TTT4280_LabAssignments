@@ -19,28 +19,22 @@ signal -= np.mean(signal)
 
 sampling_rate = 1 / sample_period
 
-# Kaiser-vindu med beta = 8.6
 beta = 1
 window = windows.kaiser(len(signal), beta)
 
-# Bruk vinduet
 window_signal = signal * window
 
-# Zero-padding: Pad til nærmeste makt av 2 for bedre FFT-oppløsning
 n_original = len(signal)
-n_padded = 2 ** int(np.ceil(np.log2(n_original)))  # Neste 2^N verdi
+n_padded = 2 ** int(np.ceil(np.log2(n_original)))
 window_signal_padded = np.pad(window_signal, (0, n_padded - n_original), 'constant')
 
-# Beregn FFT med zero-padding
 fft_data = fft(window_signal_padded)
 frekvenser = fftfreq(n_padded, d=sample_period)
 
-# Normalisering
 magnitude = np.abs(fft_data)
 magnitude_db = 20 * np.log10(magnitude)
 magnitude_db_normalisert = magnitude_db - np.max(magnitude_db)
 
-# Plot
 plt.figure(figsize=(10, 6))
 plt.plot(frekvenser, magnitude_db_normalisert)
 plt.xlabel('Frekvens (Hz)')
@@ -49,5 +43,4 @@ plt.legend()
 plt.xlim(-4000, 4000)
 plt.title('Kaiser-vindu med zero-padding')
 plt.grid()
-plt.savefig('Kaiser_ZeroPadding.png', dpi=700)
-#plt.show()
+plt.show()

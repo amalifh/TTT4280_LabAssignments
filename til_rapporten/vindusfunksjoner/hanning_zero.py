@@ -3,6 +3,7 @@ import matplotlib.pyplot as plt
 from scipy.signal import windows
 from scipy.fft import fft, fftfreq
 
+
 def raspi_import(path, channels=5):
     with open(path, 'rb') as fid: 
         sample_period = np.fromfile(fid, count=1, dtype=np.float64)[0] 
@@ -19,26 +20,25 @@ signal -= np.mean(signal)
 
 sampling_rate = 1 / sample_period
 
-beta = 1
-window = windows.kaiser(len(signal), beta)
-
+window = windows.hann(len(signal))
 window_signal = signal * window
 
-fft_data = fft(window_signal)
-n = len(signal)
-frekvenser = fftfreq(n, d=sample_period)
+n_original = len(signal)
+n_padded = 2 ** int(np.ceil(np.log2(n_original)))  
+window_signal_padded = np.pad(window_signal, (0, n_padded - n_original), 'constant')
+
+fft_data = fft(window_signal_padded)
+frekvenser = fftfreq(n_padded, d=sample_period)
 
 magnitude = np.abs(fft_data)
 magnitude_db = 20 * np.log10(magnitude)
 magnitude_db_normalisert = magnitude_db - np.max(magnitude_db)
 
 plt.figure(figsize=(10, 6))
-plt.plot(frekvenser, magnitude_db_normalisert, label='Kaiser-vindu')
+plt.plot(frekvenser, magnitude_db_normalisert, label='ADC 1 med Hanning-vindu + Zero-padding')
 plt.xlabel('Frekvens (Hz)')
 plt.ylabel('Amplitude (dB)')
-#plt.legend()
-plt.xlim(-4000, 4000)
-plt.title('Kaiser-vindu')
+plt.xlim(-4000, 4000)  
+plt.title('Hanning-vindu med zero-padding')
 plt.grid()
-plt.savefig('Frekvensspektrum_Kaiser.png', dpi=700)
 plt.show()

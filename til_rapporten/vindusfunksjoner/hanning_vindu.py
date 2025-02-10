@@ -3,7 +3,6 @@ import matplotlib.pyplot as plt
 from scipy.signal import windows
 from scipy.fft import fft, fftfreq
 
-
 def raspi_import(path, channels=5):
     with open(path, 'rb') as fid: 
         sample_period = np.fromfile(fid, count=1, dtype=np.float64)[0] 
@@ -21,7 +20,6 @@ signal -= np.mean(signal)
 sampling_rate = 1 / sample_period
 
 window = windows.hann(len(signal))
-
 window_signal = signal * window
 
 fft_data = fft(window_signal)
@@ -32,17 +30,15 @@ magnitude = np.abs(fft_data)
 magnitude_db = 20 * np.log10(magnitude)
 magnitude_db_normalisert = magnitude_db - np.max(magnitude_db)
 
-
 plt.figure(figsize=(10, 6))
-plt.plot(frekvenser, magnitude_db_normalisert, label='ADC 1 med Hanning-vindu')
+plt.plot(frekvenser, magnitude_db_normalisert)
 plt.xlabel('Frekvens (Hz)')
 plt.ylabel('Amplitude (dB)')
-#plt.legend()
 plt.xlim(-4000, 4000) 
 plt.title('Hanning-vindu')
 plt.grid()
-plt.savefig('Frekvensspektrum_Hanning.png', dpi=700)
-#plt.show()
+plt.show()
+
 
 
 

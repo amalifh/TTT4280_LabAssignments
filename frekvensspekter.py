@@ -32,6 +32,9 @@ if __name__ == "__main__":
     magnitude_db = 20 * np.log10(magnitude)
 # Normalisert amplitude
     magnitude_db_normalisert = magnitude_db - np.max(magnitude_db)
+
+    
+
 # Plot
     plt.figure(figsize=(10, 6))
     plt.plot(frekvenser[:n//2], magnitude_db_normalisert[:n//2], label = 'ADC 1') 

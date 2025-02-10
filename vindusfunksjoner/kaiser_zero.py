@@ -20,7 +20,7 @@ signal -= np.mean(signal)
 sampling_rate = 1 / sample_period
 
 # Kaiser-vindu med beta = 8.6
-beta = 8.6
+beta = 1
 window = windows.kaiser(len(signal), beta)
 
 # Bruk vinduet
@@ -46,8 +46,8 @@ plt.plot(frekvenser, magnitude_db_normalisert)
 plt.xlabel('Frekvens (Hz)')
 plt.ylabel('Amplitude (dB)')
 plt.legend()
-plt.xlim(-2000, 2000)
+plt.xlim(-4000, 4000)
 plt.title('Kaiser-vindu med zero-padding')
 plt.grid()
 plt.savefig('Kaiser_ZeroPadding.png', dpi=700)
-plt.show()
+#plt.show()

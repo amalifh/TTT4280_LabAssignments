@@ -19,8 +19,7 @@ signal -= np.mean(signal)
 
 sampling_rate = 1 / sample_period
 
-# Kaiser-vindu med beta = 8.6
-beta = 8.6
+beta = 1
 window = windows.kaiser(len(signal), beta)
 
 window_signal = signal * window
@@ -38,8 +37,8 @@ plt.plot(frekvenser, magnitude_db_normalisert, label='Kaiser-vindu')
 plt.xlabel('Frekvens (Hz)')
 plt.ylabel('Amplitude (dB)')
 #plt.legend()
-plt.xlim(-2000, 2000)
-plt.title('Frekvensspektrum med Kaiser-vindu')
+plt.xlim(-4000, 4000)
+plt.title('Kaiser-vindu')
 plt.grid()
 plt.savefig('Frekvensspektrum_Kaiser.png', dpi=700)
 plt.show()

@@ -38,11 +38,11 @@ plt.plot(frekvenser, magnitude_db_normalisert, label='ADC 1 med Hanning-vindu')
 plt.xlabel('Frekvens (Hz)')
 plt.ylabel('Amplitude (dB)')
 #plt.legend()
-plt.xlim(-2000, 2000) 
+plt.xlim(-4000, 4000) 
 plt.title('Hanning-vindu')
 plt.grid()
 plt.savefig('Frekvensspektrum_Hanning.png', dpi=700)
-plt.show()
+#plt.show()
 
 
 

@@ -37,7 +37,7 @@ def raspi_import(path, channels=5):
 
 # Import data from bin file
 if __name__ == "__main__":
-    sample_period, data = raspi_import(sys.argv[1] if len(sys.argv) > 1 else 'testBIns/test13.bin')
+    sample_period, data = raspi_import(sys.argv[1] if len(sys.argv) > 1 else 'lab2_1.bin')
     
     delta = 0.8e-3
     channel_data = data[:,0]
@@ -64,7 +64,7 @@ if __name__ == "__main__":
     plt.plot(t, channel_data_5, label = 'ADC 5')
 
 
-    plt.xlim(0,0.03)
+    plt.xlim(0,0.1)
 
     plt.title('Sinusbølge med frekvens 100Hz')
     plt.xlabel('Tid [s]')
@@ -76,5 +76,5 @@ if __name__ == "__main__":
 
     plt.show()
 
-    plt.savefig('sample13_endelig2.png', dpi = 700)
+    #plt.savefig('sample13_endelig2.png', dpi = 700)
 

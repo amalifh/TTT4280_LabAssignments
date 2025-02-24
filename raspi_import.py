@@ -38,7 +38,7 @@ def raspi_import(path, channels=5):
 
 # Import data from bin file
 if __name__ == "__main__":
-    sample_period, data = raspi_import(sys.argv[1] if len(sys.argv) > 1 else 'Lab2/klapp_test/klapp9.bin')
+    sample_period, data = raspi_import(sys.argv[1] if len(sys.argv) > 1 else 'Lab2/klapp_test/klapp12.bin')
     
     delta = 0.8e-3
     channel_data = data[:,0]
@@ -61,6 +61,8 @@ if __name__ == "__main__":
     channel_data_5 *= delta
     channel_data_5 = detrend(channel_data_5,axis=-1,type='linear',bp=0,overwrite_data=False)
 
+
+
     t = np.arange(0,1,1/31250)
 
     plt.plot(t, channel_data, label = 'ADC 1')
@@ -72,7 +74,7 @@ if __name__ == "__main__":
 
     #plt.xlim(0,0.1)
 
-    plt.title('Opptak av klapp 90 grader på x-aksen')
+    plt.title('Opptak av klapp 180 grader på x-aksen')
     plt.xlabel('Tid [s]')
     plt.xlim(0.2,0.8)
     plt.ylabel('Amplitude [V]')
@@ -81,9 +83,9 @@ if __name__ == "__main__":
     plt.legend(loc = 'upper right')
 
 
-    #plt.show()
+    plt.show()
 
-    plt.savefig('endelig_lab2_klapp9.png', dpi = 700)
+    #plt.savefig('lab2_klapp10_180grader.png', dpi = 700)
 
 
 
@@ -92,16 +94,37 @@ def find_delay(signal1, signal2, fs):
 
     # Beregn krysskorrelasjon
     correlation = np.correlate(signal1, signal2, mode='full')
-    
+
     # Finn forsinkelsen ved å finne indeksen til maksimumet av den absolutte krysskorrelasjonen
     delay = np.argmax(np.abs(correlation)) - (len(signal1) - 1)
     
     # Konverter fra sample-forsinkelse til tid i sekunder
     delay_time = delay / fs
+
     
     return delay_time
 
 
 print(find_delay(channel_data, channel_data_2, 31250))
 
+
+
+def plot_correlation(signal1, signal2, fs):
+    # Beregn krysskorrelasjonen med "full" mode
+    correlation = np.correlate(signal1, signal2, mode='full')
+    
+    # Lag en array med tidsforsinkelser (lags)
+    
+    lags = np.arange(-len(signal1) + 1, len(signal1))
+    # Plot krysskorrelasjonen
+    plt.figure()
+    plt.plot(lags, correlation)
+    plt.xlabel('Forsinkelse (s)')
+    plt.ylabel('Krysskorrelasjon')
+    plt.title('Krysskorrelasjon mellom signal 1 og signal 2, 180 grader')
+    plt.grid(True)
+    plt.show()
+    #plt.savefig('krysskorrelasjon_klapp10.png', dpi=700)
+
+plot_correlation(channel_data, channel_data_2, 31250)
 

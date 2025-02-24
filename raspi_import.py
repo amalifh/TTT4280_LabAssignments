@@ -38,7 +38,7 @@ def raspi_import(path, channels=5):
 
 # Import data from bin file
 if __name__ == "__main__":
-    sample_period, data = raspi_import(sys.argv[1] if len(sys.argv) > 1 else 'klapp9.bin')
+    sample_period, data = raspi_import(sys.argv[1] if len(sys.argv) > 1 else 'Lab2/klapp_test/klapp9.bin')
     
     delta = 0.8e-3
     channel_data = data[:,0]
@@ -84,4 +84,24 @@ if __name__ == "__main__":
     #plt.show()
 
     plt.savefig('endelig_lab2_klapp9.png', dpi = 700)
+
+
+
+
+def find_delay(signal1, signal2, fs):
+
+    # Beregn krysskorrelasjon
+    correlation = np.correlate(signal1, signal2, mode='full')
+    
+    # Finn forsinkelsen ved å finne indeksen til maksimumet av den absolutte krysskorrelasjonen
+    delay = np.argmax(np.abs(correlation)) - (len(signal1) - 1)
+    
+    # Konverter fra sample-forsinkelse til tid i sekunder
+    delay_time = delay / fs
+    
+    return delay_time
+
+
+print(find_delay(channel_data, channel_data_2, 31250))
+
 

@@ -2,6 +2,7 @@ import numpy as np
 import sys
 import matplotlib.pyplot as plt
 import numpy as np
+from scipy.signal import detrend
 
 
 def raspi_import(path, channels=5):
@@ -37,44 +38,50 @@ def raspi_import(path, channels=5):
 
 # Import data from bin file
 if __name__ == "__main__":
-    sample_period, data = raspi_import(sys.argv[1] if len(sys.argv) > 1 else 'lab2_1.bin')
+    sample_period, data = raspi_import(sys.argv[1] if len(sys.argv) > 1 else 'klapp9.bin')
     
     delta = 0.8e-3
     channel_data = data[:,0]
     channel_data *= delta
+    channel_data = detrend(channel_data,axis=-1,type='linear',bp=0,overwrite_data=False)
 
     channel_data_2 = data[:,1]
     channel_data_2 *= delta
+    channel_data_2 = detrend(channel_data_2,axis=-1,type='linear',bp=0,overwrite_data=False)
 
     channel_data_3 = data[:,2]
     channel_data_3 *= delta
+    channel_data_3 = detrend(channel_data_3,axis=-1,type='linear',bp=0,overwrite_data=False)
 
     channel_data_4 = data[:,3]
     channel_data_4 *= delta
+    channel_data_4 = detrend(channel_data_4,axis=-1,type='linear',bp=0,overwrite_data=False)
 
     channel_data_5 = data[:,4]
     channel_data_5 *= delta
+    channel_data_5 = detrend(channel_data_5,axis=-1,type='linear',bp=0,overwrite_data=False)
 
     t = np.arange(0,1,1/31250)
 
     plt.plot(t, channel_data, label = 'ADC 1')
     plt.plot(t, channel_data_2, label = 'ADC 2')
-    plt.plot(t, channel_data_3, label = 'ADC 3')
+    #plt.plot(t, channel_data_3, label = 'ADC 3')
     plt.plot(t, channel_data_4, label = 'ADC 4')
-    plt.plot(t, channel_data_5, label = 'ADC 5')
+    #plt.plot(t, channel_data_5, label = 'ADC 5')
 
 
-    plt.xlim(0,0.1)
+    #plt.xlim(0,0.1)
 
-    plt.title('Sinusbølge med frekvens 100Hz')
+    plt.title('Opptak av klapp 90 grader på x-aksen')
     plt.xlabel('Tid [s]')
+    plt.xlim(0.2,0.8)
     plt.ylabel('Amplitude [V]')
     plt.grid()
 
     plt.legend(loc = 'upper right')
 
 
-    plt.show()
+    #plt.show()
 
-    #plt.savefig('sample13_endelig2.png', dpi = 700)
+    plt.savefig('endelig_lab2_klapp9.png', dpi = 700)
 

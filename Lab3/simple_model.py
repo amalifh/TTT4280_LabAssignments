@@ -13,7 +13,7 @@ wavelength = np.array([red_wavelength, green_wavelength, blue_wavelength])
 def mua_blood_oxy(x): return np.interp(x, muabo[:, 0], muabo[:, 1])
 def mua_blood_deoxy(x): return np.interp(x, muabd[:, 0], muabd[:, 1])
 
-bvf = 0.01 # Blood volume fraction, average blood amount in tissue
+bvf = 1 # Blood volume fraction, average blood amount in tissue
 oxy = 0.8 # Blood oxygenation
 
 # Absorption coefficient ($\mu_a$ in lab text)
@@ -39,7 +39,7 @@ def delta (musA, musrR):
 
 #implementing transmittans
 def T (muaR,musRR):
-    d = 0.01 #dybde i m
+    d = 300 * 10**(-6) #dybde i m
     C = np.sqrt(3*muaR*(muaR+musRR))
     return np.exp(-C*d)
 

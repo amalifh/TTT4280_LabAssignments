@@ -37,9 +37,16 @@ musr = 100 * (17.6*(wavelength/500)**-4 + 18.78*(wavelength/500)**-0.22)
 def delta (musA, musrR):
     return np.sqrt(1/(3*(musA*(musA+musrR))))
 
+#implementing transmittans
+def T (muaR,musRR):
+    d = 10**7
+    C = np.sqrt(3*muaR*(muaR+musRR))
+    return np.exp(-C*d)
+
 print(delta(mua[0],musr[0]))
 print(delta(mua[1],musr[1]))
 print(delta(mua[2],musr[2]))
+print (T(mua[0],musr[0]))
 
-print(mua)
-print(musr)
+#print(mua)
+#print(musr)

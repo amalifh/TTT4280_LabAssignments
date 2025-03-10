@@ -48,15 +48,19 @@ def Reflektans (muaR,musRR):
     C = np.sqrt(3*muaR*(muaR+musRR))
     return np.exp(-2*C*d)
 
+
 print(delta(mua[0],musr[0]))
 print(delta(mua[1],musr[1]))
 print(delta(mua[2],musr[2]))
+
 print (f'Transmittans for rød: {T(mua[0],musr[0])}')
 print (f'Transmittans for grønn: {T(mua[1],musr[1])}')
 print (f'Transmittans for blå: {T(mua[2],musr[2])}')
 print (f'Reflektans for rød: {Reflektans(mua[0],musr[0])}')
 print (f'Refelektans for rød: {Reflektans(mua[1],musr[1])}')
 print (f'Reflektans for rød: {Reflektans(mua[2],musr[2])}')
+
+
 
 print(f'mua: {mua}, musr: {musr}')
 

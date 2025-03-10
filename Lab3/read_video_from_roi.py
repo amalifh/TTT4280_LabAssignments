@@ -62,7 +62,6 @@ while cap.isOpened():
     count = count + 1
 
 cap.release()
-
 #save to file in order R, G, B.
 np.savetxt(output_filename, np.flip(mean_signal, 1))
 print("Data saved to '" + output_filename + "', fps = " + str(fps) + " frames/second")

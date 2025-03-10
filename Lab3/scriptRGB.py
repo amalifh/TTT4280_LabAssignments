@@ -22,7 +22,7 @@ def access_data(filename):
 
 
 if __name__ == "__main__":
-    r, g, b =access_data('TTT4280_LabAssignments/Lab3/test_laan.txt')
+    r, g, b =access_data('TTT4280_LabAssignments/Lab3/test4.txt')
 
     t = np.arange(0,30,30/len(r))
 

@@ -20,7 +20,7 @@ def access_data(filename):
 
 if __name__ == "__main__":
     # Load the data
-    r, g, b = access_data('Lab3/theosfinger5.txt')
+    r, g, b = access_data('Lab3/reflektans_1.txt')
     t = np.arange(0, 30, 30/len(r))
     
     print("Length of signal:", len(r))

@@ -23,7 +23,7 @@ def access_data(filename):
 
 
 if __name__ == "__main__": #nice metode for filbruk osv
-    r, g, b =access_data('Lab3/theosfinger5.txt')
+    r, g, b =access_data('Lab3/reflektans.txt')
     t = np.arange(0,30,30/len(r))
     print(len(r))
     print(len(t))

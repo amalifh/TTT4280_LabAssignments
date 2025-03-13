@@ -20,7 +20,7 @@ def access_data(filename):
 
 if __name__ == "__main__":
     # Load the data
-    r, g, b = access_data('Lab3/test4.txt')
+    r, g, b = access_data('Lab3/theosfinger5.txt')
     t = np.arange(0, 30, 30/len(r))
     
     print("Length of signal:", len(r))
@@ -70,9 +70,9 @@ if __name__ == "__main__":
 
     # Plot the magnitude spectrum for each channel
     plt.figure(figsize=(10, 6))
-    plt.plot(freq, np.abs(r_fft), label="R")
-    plt.plot(freq, np.abs(g_fft), label="G")
-    plt.plot(freq, np.abs(b_fft), label="B")
+    plt.plot(freq, np.abs(r_fft), label="R", color = 'red')
+    plt.plot(freq, np.abs(g_fft), label="G", color = 'green')
+    plt.plot(freq, np.abs(b_fft), label="B", color = 'blue')
     plt.xlabel("Frequency [Hz]")
     plt.ylabel("Magnitude")
     plt.title("FFT Magnitude Spectrum")

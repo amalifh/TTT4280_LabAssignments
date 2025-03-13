@@ -49,25 +49,31 @@ if __name__ == "__main__": #nice metode for filbruk osv
     g_filtered = bandpass_filter(g_detrend, lowcut, highcut, fs)
     b_filtered = bandpass_filter(b_detrend, lowcut, highcut, fs)
 
-    fig, (ax1, ax2, ax3) = plt.subplots(3, 1)
+    fig, (ax1, ax2, ax3) = plt.subplots(3,1, layout='constrained', figsize=(10, 7))
+
+    fig.suptitle('RGB-verdier fra theosfinger5.txt', fontsize='xx-large')
 
     ax1.plot(t, r, color ='red')
     ax1.plot(t, g, color = 'green')
     ax1.plot(t, b, color = 'blue')
     plt.grid()
-    plt.xlabel("Tid [s]")
+    ax1.set_title('Basismåling')
 
     ax2.plot(t, r_detrend, color ='red')
     ax2.plot(t, g_detrend, color = 'green')
     ax2.plot(t, b_detrend, color = 'blue')
     plt.grid()
-    plt.xlabel("Tid [s]")
+    ax2.set_title('Uten DC-offset')
 
     ax3.plot(t, r_filtered, color ='red')
     ax3.plot(t, g_filtered, color = 'green')
     ax3.plot(t, b_filtered, color = 'blue')
     plt.grid()
+    ax3.set_title('Filtrert')
     plt.xlabel("Tid [s]")
+    plt.ylabel('Fargeinteintensitet')
 
+    for ax in (ax1, ax2, ax3):
+        ax.label_outer()
     plt.show()
-    #plt.savefig("pulsmåling_ingenprosess")
+    #plt.savefig("Lab3/theosfinger5.png", dpi = 700)

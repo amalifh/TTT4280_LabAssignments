@@ -79,3 +79,47 @@ if __name__ == "__main__":
     plt.grid()
     plt.legend()
     plt.show()
+
+    # Assuming you have already computed:
+#   freq      -> frequency bins (only positive frequencies)
+#   r_fft     -> FFT of the red channel detrended data (only positive frequencies)
+
+# Define the heart rate frequency range in Hz
+hr_min = 0.5  # 30 BPM
+hr_max = 3.0  # 180 BPM
+
+# Create a mask to filter frequencies within the heart rate range
+band_mask = (freq >= hr_min) & (freq <= hr_max)
+
+# Get the magnitudes for the red channel FFT within this band
+g_fft_magnitude = np.abs(g_fft)[band_mask]
+band_freqs = freq[band_mask]
+
+# Find the index of the peak frequency in this band
+peak_index = np.argmax(g_fft_magnitude)
+
+# Get the pulse frequency (in Hz)
+pulse_frequency = band_freqs[peak_index]
+
+# Convert frequency to BPM (beats per minute)
+pulse_rate_bpm = pulse_frequency * 60
+
+print("Estimated Pulse Rate (BPM) from green channel:", pulse_rate_bpm)
+
+#Wanting to find SNR for each channel, doing so------------
+delta = 0.1
+signal_indices = np.where(np.abs(freq - pulse_frequency) < delta)[0]
+
+# Signal power: sum of squared magnitudes in the signal window
+signal_power = np.sum(np.abs(r_fft[signal_indices])**2)
+
+# Noise power: sum of squared magnitudes in the heart rate band excluding the signal window
+noise_mask = ((freq >= hr_min) & (freq <= hr_max)) & (np.abs(freq - pulse_frequency) >= delta)
+noise_power = np.sum(np.abs(r_fft[noise_mask])**2)
+
+# Avoid division by zero
+if noise_power == 0:
+    print("Noise power is zero; cannot compute SNR.")
+else:
+    snr_db = 10 * np.log10(signal_power / noise_power)
+    print("Estimated SNR (dB) for red channel pulse:", snr_db)

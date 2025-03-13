@@ -23,7 +23,7 @@ def access_data(filename):
 
 
 if __name__ == "__main__": #nice metode for filbruk osv
-    r, g, b =access_data('TTT4280_LabAssignments/Lab3/test4.txt')
+    r, g, b =access_data('Lab3/theosfinger5.txt')
     t = np.arange(0,30,30/len(r))
     print(len(r))
     print(len(t))
@@ -51,23 +51,23 @@ if __name__ == "__main__": #nice metode for filbruk osv
 
     fig, (ax1, ax2, ax3) = plt.subplots(3, 1)
 
-    ax1.plot(t, r)
-    ax1.plot(t, g)
-    ax1.plot(t, b)
+    ax1.plot(t, r, color ='red')
+    ax1.plot(t, g, color = 'green')
+    ax1.plot(t, b, color = 'blue')
     plt.grid()
     plt.xlabel("Tid [s]")
 
-    ax2.plot(t, r_detrend)
-    ax2.plot(t, g_detrend)
-    ax2.plot(t, b_detrend)
+    ax2.plot(t, r_detrend, color ='red')
+    ax2.plot(t, g_detrend, color = 'green')
+    ax2.plot(t, b_detrend, color = 'blue')
     plt.grid()
     plt.xlabel("Tid [s]")
 
-    ax3.plot(t, r_filtered)
-    ax3.plot(t, g_filtered)
-    ax3.plot(t, b_filtered)
+    ax3.plot(t, r_filtered, color ='red')
+    ax3.plot(t, g_filtered, color = 'green')
+    ax3.plot(t, b_filtered, color = 'blue')
     plt.grid()
-    ax3.xlabel("Tid [s]")
+    plt.xlabel("Tid [s]")
 
     plt.show()
     #plt.savefig("pulsmåling_ingenprosess")

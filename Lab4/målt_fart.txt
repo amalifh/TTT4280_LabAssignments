@@ -1,0 +1,7 @@
+Målingene ble gjort med stoppeklokke på en 3 meter lang bane.
+Det ble gjort 5 målinger per hastighet,og gjennomsnittet er da brukt som referanse.
+
+Slow: 		1.6 m/s
+Very slow:	1.2 m/s
+Reverse:	1.8 m/s
+	

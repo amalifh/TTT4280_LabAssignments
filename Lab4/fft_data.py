@@ -62,7 +62,7 @@ if __name__ == "__main__":
     I_signal = detrend(channel_data)
     Q_signal = detrend(channel_data2)
 
-    cmpx_signal = channel_data + 1j*channel_data2
+    cmpx_signal = I_signal + 1j*Q_signal
 
     fft_data = np.fft.fft(cmpx_signal)
 
@@ -77,12 +77,16 @@ if __name__ == "__main__":
     magnitude_db_normalisert = magnitude_db - np.max(magnitude_db)
 
     plt.figure(figsize=(10, 6))
-    plt.plot(frekvenser[:n//2], magnitude_db_normalisert[:n//2], label = 'ADC 1') 
+    plt.plot(frekvenser[:n//2], magnitude_db_normalisert[:n//2]) 
+    plt.plot(119.7,-35.7,'ro', label = 'Signifikant topp: 120 Hz')
+    plt.axhline(y = -69.29, color = 'salmon', linestyle = '--', label = 'esitmert SNR')
     plt.xlabel('Frekvens [Hz]')
     plt.ylabel('Amplitude [dB]')
     plt.xlim(0,400)
+    plt.ylim(-100, 0)
     plt.grid()
+    plt.legend()
     #plt.ylim(0,400)
     plt.title('Frekvensspekter: høy hastighet')
-    plt.show()
-   # plt.savefig('frekvens_hoyhast1', dpi = 700)
+    #plt.show()
+    plt.savefig('frekvens_hoyhast1', dpi = 700)

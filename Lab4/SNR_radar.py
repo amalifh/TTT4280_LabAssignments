@@ -12,7 +12,7 @@ def raspi_import(path, channels=5):
     sample_period *= 1e-6 
     return sample_period, data
 
-filename = 'Lab4/data/SS/radar_slow1.bin'
+filename = 'Lab4/data/SR/radar_rev4.bin'
 sample_period, data = raspi_import(filename)
 
 signal_with_noise = data[:, 0]

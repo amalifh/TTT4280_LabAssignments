@@ -43,7 +43,7 @@ def raspi_import(path, channels=5):
 
 # Import data from bin file
 if __name__ == "__main__":
-    sample_period, data = raspi_import(sys.argv[1] if len(sys.argv) > 1 else 'Lab4/data/Speed-Slow/radar_slow1.bin')
+    sample_period, data = raspi_import(sys.argv[1] if len(sys.argv) > 1 else 'Lab4/data/SS/radar_slow1.bin')
     
     delta = 0.8e-3
     channel_data = data[:,0]
@@ -90,7 +90,7 @@ if __name__ == "__main__":
 
     plt.title('Plot av rådata')
     plt.xlabel('Tid [s]')
-    plt.xlim(0,0.05)
+    plt.xlim(0,0.8)
     plt.ylim(-1,1)
     plt.ylabel('Amplitude [V]')
     plt.grid()

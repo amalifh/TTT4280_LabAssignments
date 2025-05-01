@@ -53,6 +53,6 @@ plt.grid(True)
 plt.legend()
 
 # Step 3: Show the plot
-#plt.show()
+plt.show()
 
-plt.savefig('Bodediagram_filter1_butterworth.png', dpi = 700)
+#plt.savefig('Bodediagram_filter1_butterworth.png', dpi = 700)

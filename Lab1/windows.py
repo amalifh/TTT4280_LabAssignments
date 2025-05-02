@@ -34,16 +34,7 @@ if __name__ == "__main__":
     magnitude_db = 20 * np.log10(magnitude)
     magnitude_db_normalisert = magnitude_db - np.max(magnitude_db)
 
-    # Plot
-    plt.figure(figsize=(10, 6))
-    plt.plot(frekvenser[:padded_n//2], magnitude_db_normalisert[:padded_n//2], label='ADC 1')
-    plt.xlabel('Frekvens (Hz)')
-    plt.ylabel('Amplitude')
-    plt.legend()
-    #plt.xlim(0, 200)
-    plt.title('Frekvensspektrum med Zero-Padding')
-    plt.grid()
-    plt.show()
-
+    
+    
     # Save figure
     #plt.savefig('Frekvensspektrum_ADC5_padded.png', dpi=700)

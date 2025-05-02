@@ -1,10 +1,7 @@
 import numpy as np
 import sys
 import matplotlib.pyplot as plt
-
 from scipy.signal import detrend
-
-
 
 def raspi_import(path, channels=5):
 

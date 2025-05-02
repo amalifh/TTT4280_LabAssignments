@@ -54,4 +54,7 @@ if __name__ == "__main__":
     plt.title('Frekvensspekter: negativ hastighet')
     plt.show()
     #plt.savefig('frekvens_negativ', dpi = 700)
+<<<<<<< HEAD
 
+=======
+>>>>>>> d80963c32a8213cbd94547ba2d2257ceb723c13b

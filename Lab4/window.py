@@ -36,7 +36,7 @@ if __name__ == "__main__":
     magnitude_db -= np.max(magnitude_db)
 
     # plot only the positive half
-    half = n // 2
+    #half = n // 2
     half = n // 2
     # find index of the max in the positive-freq half
     idx_peak = np.argmax(magnitude_db[:half])
@@ -69,7 +69,7 @@ if __name__ == "__main__":
                 zorder=6)
 
     plt.axhline(y=-69.27, color='salmon', linestyle='--', label='Estimert SNR')
-    plt.figure(figsize=(10, 6))
+    """plt.figure(figsize=(10, 6))
     plt.plot(frekvenser[:half], magnitude_db[:half], label='Windowed spectrum')
     plt.plot(106.3, -46.8, 'o', color='indigo',
              label='Signifikant topp: 106.3 Hz')
@@ -81,6 +81,6 @@ if __name__ == "__main__":
     plt.ylim(-100, 0)
     plt.grid()
     plt.legend()
-    plt.title('Frekvensspekter (med Hann-vindu)')
-    plt.savefig('frekvens_negativ_windowed.png', dpi=700)
+    plt.title('Frekvensspekter (med Hann-vindu)')"""
+    #plt.savefig('frekvens_negativ_windowed.png', dpi=700)
     plt.show()

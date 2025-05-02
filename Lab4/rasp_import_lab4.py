@@ -32,22 +32,31 @@ if __name__ == "__main__":
     channel_data_2 *= delta
     channel_data_2 = detrend(channel_data_2,axis=-1,type='linear',bp=0,overwrite_data=False)
 
-    t = np.arange(0,1,1/31250)
+    t = np.arange(0,len(channel_data))
 
-    plt.plot(t, channel_data, label = 'I-signal')
-    plt.plot(t, channel_data_2, label = 'Q-signal')
+    I_signal_cos = np.cos(channel_data)
+    Q_signal_sin = np.sin(channel_data_2)
+
+    cmplx = I_signal_cos + 1j*Q_signal_sin
+
+    plt.plot(np.real(cmplx), np.imag(cmplx), label = 'I-Q plott')
+
   
 
     plt.title('Rådata fra radar: Lav hastighet')
     plt.xlabel('Tid[s]')
-    plt.xlim(0,0.05)
-    plt.ylim(-1,1)
+    #plt.xlim(0,0.05)
+    #plt.ylim(-1,1)
     plt.ylabel('Spenning [V]')
     plt.grid()
 
     plt.legend(loc = 'upper right')
 
 
-    #plt.show()
+    plt.show()
+    
 
-    plt.savefig('lab4_slow1_rådata_zoom', dpi = 700)
+    #plt.savefig('lab4_slow1_rådata_zoom', dpi = 700)
+
+
+

@@ -42,6 +42,25 @@ sample_period, data = raspi_import(sys.argv[1] if len(sys.argv) > 1 else 'Lab4/d
 
 freq, magnitude, fft_data = compute_fft(sample_period, data)
 
+def compute_snr(freqs, fft_data, signal_band=(-300, -200), noise_band=(-600, -300)):
+    # Beregn spektral effekt
+    power_spectrum = np.abs(fft_data)**2
+
+    # Indekser for signal- og støyområder
+    signal_idx = np.logical_and(freqs >= signal_band[0], freqs <= signal_band[1])
+    noise_idx = np.logical_and(freqs >= noise_band[0], freqs <= noise_band[1])
+
+    # Beregn effekt (gjennomsnitt eller sum)
+    P_signal = np.mean(power_spectrum[signal_idx])
+    P_noise = np.mean(power_spectrum[noise_idx])
+
+    snr_db = 10 * np.log10(P_signal / P_noise)
+
+    return snr_db
+
+snr = compute_snr(freq, fft_data)
+print(f"SNR = {snr:.2f} dB")
+
 
 def plot_doppler_spectrum(freqs, magnitude, f_doppler=None):
     plt.figure(figsize=(10, 6))

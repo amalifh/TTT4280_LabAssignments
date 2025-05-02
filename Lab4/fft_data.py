@@ -56,7 +56,7 @@ def plot_fft_doppler(freq, magnitude, f_d = None):
         idx = np.argmin(np.abs(freq - f_d))
         amplitude = magnitude[idx]
         plt.plot(f_d, amplitude, 'mo', label = 'Dopplerskiftet = -233 Hz') 
-        
+
     plt.xlabel('Frekvens [Hz]')
     plt.ylabel('Amplitude [dB]')
     plt.grid()
@@ -66,9 +66,24 @@ def plot_fft_doppler(freq, magnitude, f_d = None):
     plt.show()
     #plt.savefig('frekvens_negativ', dpi = 700)
  
+def compute_snr(freqs, fft_data, signal_band=(-300, -200), noise_band=(-600, -300)):
+    # Beregn spektral effekt
+    power_spectrum = np.abs(fft_data)**2
 
+    # Indekser for signal- og støyområder
+    signal_idx = np.logical_and(freqs >= signal_band[0], freqs <= signal_band[1])
+    noise_idx = np.logical_and(freqs >= noise_band[0], freqs <= noise_band[1])
+
+    # Beregn effekt (gjennomsnitt eller sum)
+    P_signal = np.mean(power_spectrum[signal_idx])
+    P_noise = np.mean(power_spectrum[noise_idx])
+
+    snr_db = 10 * np.log10(P_signal / P_noise)
+
+    return snr_db
 
 if __name__ == "__main__":
     sample_period, data = raspi_import(sys.argv[1] if len(sys.argv) > 1 else 'Lab4/data/SR/radar_rev4.bin')
     freq, magnitude, fft_data = fft_data_func(sample_period, data)
-    plot_fft_doppler(freq, magnitude, -233)
+    #plot_fft_doppler(freq, magnitude, -233)
+    print(compute_snr(freq,fft_data))

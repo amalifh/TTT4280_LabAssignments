@@ -24,33 +24,33 @@ if __name__ == "__main__":
     cmpx_signal = I_signal + 1j * Q_signal
 
     # --- FFT ---
-    fft_data = np.fft.fft(cmpx_signal)
-    n = len(fft_data)
-    frekvenser = np.fft.fftfreq(n, d=sample_period)
+    fft_data = np.fft.fftshift(np.fft.fft(cmpx_signal))
+    n = len(cmpx_signal)
+    frekvenser = np.fft.fftshift(np.fft.fftfreq(n, d=sample_period))
 
     # --- Beregn effekt og SNR ---
-    power_spectrum = np.abs(fft_data) ** 2
-    nyttig_spektrum = power_spectrum[:n // 2]
-    frekvenser_pos = frekvenser[:n // 2]
+   # power_spectrum = np.abs(fft_data) ** 2
+    #nyttig_spektrum = power_spectrum[:n // 2]
+    #frekvenser_pos = frekvenser[:n // 2]
 
     # Signalstyrke = sterkeste topp
-    signal_index = np.argmax(nyttig_spektrum)
-    P_signal = nyttig_spektrum[signal_index]
+#    signal_index = np.argmax(nyttig_spektrum)
+ #   P_signal = nyttig_spektrum[signal_index]
 
     # Velg intervall for støygulv (juster etter ditt signal)
-    noise_f_min = 500  # Hz
-    noise_f_max = 1000  # Hz
+    noise_f_min = 250  # Hz
+    noise_f_max = 400  # Hz
 
     # Lag en maske for frekvensområdet
-    noise_mask = (frekvenser_pos >= noise_f_min) & (frekvenser_pos <= noise_f_max)
+    #noise_mask = (frekvenser_pos >= noise_f_min) & (frekvenser_pos <= noise_f_max)
 
     # Beregn støygulv i det valgte området
-    P_noise = np.mean(nyttig_spektrum[noise_mask])
+   # P_noise = np.mean(nyttig_spektrum[noise_mask])
 
 
     # SNR i dB
-    snr_linear = P_signal / P_noise
-    snr_db = 10 * np.log10(snr_linear)
+  #  snr_linear = P_signal / P_noise
+   # snr_db = 10 * np.log10(snr_linear)
 
     # --- Visualisering ---
     magnitude = np.abs(fft_data)
@@ -58,20 +58,20 @@ if __name__ == "__main__":
     magnitude_db_normalisert = magnitude_db - np.max(magnitude_db)
 
     plt.figure(figsize=(10, 6))
-    plt.plot(frekvenser_pos, magnitude_db_normalisert[:n // 2])
-    plt.plot(86.84, -35.45, 'o', color='indigo', label='Signaltopp på $86.84$ Hz')
-    plt.axhline(y=20 * np.log10(np.sqrt(P_noise)) - np.max(magnitude_db), color='salmon', linestyle='--', label='Støygulv')
+    plt.plot(frekvenser, magnitude_db)
+    #plt.plot(86.84, -35.45, 'o', color='indigo', label='Signaltopp på $86.84$ Hz')
+    #plt.axhline(y=20 * np.log10(np.sqrt(P_noise)) - np.max(magnitude_db), color='salmon', linestyle='--', label='Støygulv')
 
     plt.xlabel('Frekvens [Hz]')
     plt.ylabel('Amplitude [dB]')
     plt.title('Frekvensspekter: Lav hastighet, SNR = $69.71$ dB')
     plt.grid()
-    plt.xlim(0, 200)
-    plt.ylim(-100, 0)
+    plt.xlim(-300, 300)
+    #plt.ylim(-100, 0)
     plt.legend()
     plt.show()
 
-    print(f"SNR: {snr_db:.2f} dB")
+    #print(f"SNR: {snr_db:.2f} dB")
 
     #plt.savefig("frekvenssprekter_lav_2.0.png", dpi = 700)
 

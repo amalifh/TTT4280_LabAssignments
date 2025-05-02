@@ -16,7 +16,7 @@ def raspi_import(path, channels=2):
 
 # --- Hoveddel ---
 if __name__ == "__main__":
-    sample_period, data = raspi_import(sys.argv[1] if len(sys.argv) > 1 else 'Lab4/data/SR/radar_rev1.bin')
+    sample_period, data = raspi_import(sys.argv[1] if len(sys.argv) > 1 else 'Lab4/data/SR/radar_rev4.bin')
 
     # --- Detrend og lag komplekst signal ---
     I_signal = detrend(data[:, 0])

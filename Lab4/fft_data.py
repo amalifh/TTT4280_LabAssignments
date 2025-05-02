@@ -6,7 +6,7 @@ from scipy.signal import detrend
 
 
 
-def raspi_import(path, channels=2):
+def raspi_import(path, channels=5):
 
     with open(path, 'r') as fid:
         sample_period = np.fromfile(fid, count=1, dtype=float)[0]
@@ -19,42 +19,56 @@ def raspi_import(path, channels=2):
     sample_period *= 1e-6
     return sample_period, data
 
+def fft_data_func(sample_period, data):
+    start_time = 0.01
+    z_padding = True
 
-if __name__ == "__main__":
-    sample_period, data = raspi_import(sys.argv[1] if len(sys.argv) > 1 else 'Lab4/data/SR/radar_rev4.bin')
-    fs = 1 / sample_period
-    start_time = 0.1
-    start_sample = int(start_time * fs)
+    fs = 1/sample_period
+    begin_sample = int(start_time*fs)
 
-    I_signal = data[start_sample:, 0] - np.mean(data[start_sample:, 0])
-    Q_signal  = data[start_sample:, 1] - np.mean(data[start_sample:, 1])
+    Q = data[begin_sample:, 0] - np.mean(data[begin_sample:,0])
+    I = data[begin_sample:, 1] - np.mean(data[begin_sample:,1])
 
-
-    cmpx_signal = I_signal + 1j*Q_signal
+    cmpx_signal = I + 1j*Q
 
     window_func = np.hanning(len(cmpx_signal))
     cmpx_signal *= window_func
 
-    N = 2**15
-
+    if z_padding:
+        N = 2**15
+    else:
+        N = len(cmpx_signal)
+    
     fft_data = np.fft.fftshift(np.fft.fft(cmpx_signal, n=N))
     freq = np.fft.fftshift(np.fft.fftfreq(N, d = 1/fs))
 
     magnitude = np.abs(fft_data)
+    magnitude_db = 20 * np.log10(magnitude)
 
-    magnitude_db = 20 * np.log10(np.abs(fft_data))
+    return freq, magnitude_db, fft_data
+
+def plot_fft_doppler(freq, magnitude, f_d = None):
 
     plt.figure(figsize=(10, 6))
-    plt.plot(freq, magnitude_db) 
+    plt.plot(freq, magnitude) 
+
+    if f_d is not None:
+        idx = np.argmin(np.abs(freq - f_d))
+        amplitude = magnitude[idx]
+        plt.plot(f_d, amplitude, 'mo', label = 'Dopplerskiftet = -233 Hz') 
+        
     plt.xlabel('Frekvens [Hz]')
     plt.ylabel('Amplitude [dB]')
     plt.grid()
-    #plt.legend()
+    plt.legend()
     #plt.ylim(0,400)
-    plt.title('Frekvensspekter: negativ hastighet')
+    plt.title('Dopplerspektrum: negativ hastighet')
     plt.show()
     #plt.savefig('frekvens_negativ', dpi = 700)
-<<<<<<< HEAD
+ 
 
-=======
->>>>>>> d80963c32a8213cbd94547ba2d2257ceb723c13b
+
+if __name__ == "__main__":
+    sample_period, data = raspi_import(sys.argv[1] if len(sys.argv) > 1 else 'Lab4/data/SR/radar_rev4.bin')
+    freq, magnitude, fft_data = fft_data_func(sample_period, data)
+    plot_fft_doppler(freq, magnitude, -233)

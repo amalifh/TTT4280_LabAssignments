@@ -27,7 +27,7 @@ def compute_fft(sample_period, data, start_time=0.1, zero_pad=True):
 
     # Bruk Hann-vindu for å redusere spektrallekkasje
     window = np.hanning(len(complex_signal))
-   # complex_signal *= window
+    complex_signal *= window
 
     # Zero-padding for høyere frekvensoppløsning 
     N = 2**14 if zero_pad else len(complex_signal)
@@ -66,3 +66,4 @@ def plot_doppler_spectrum(freqs, magnitude, f_doppler=None):
     plt.show()
 
 plot_doppler_spectrum(freq, magnitude)
+

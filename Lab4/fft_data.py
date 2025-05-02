@@ -47,7 +47,7 @@ def fft_data_func(sample_period, data):
 
     return freq, magnitude_db, fft_data
 
-def plot_fft_doppler(freq, magnitude, f_d = None):
+def plot_fft_doppler(freq, magnitude, f_d = None, noise = None):
 
     plt.figure(figsize=(10, 6))
     plt.plot(freq, magnitude) 
@@ -55,21 +55,26 @@ def plot_fft_doppler(freq, magnitude, f_d = None):
     if f_d is not None:
         idx = np.argmin(np.abs(freq - f_d))
         amplitude = magnitude[idx]
-        plt.plot(f_d, amplitude, 'mo', label = 'Dopplerskiftet = -233 Hz') 
+        plt.plot(f_d, amplitude, 'mo', label = f"Dopplerskiftet = {f_d}") 
+
+    if noise is not None:
+        plt.axhline(y=20 * np.log10(np.sqrt(noise)), color='salmon', linestyle='--', label='Støygulv')
 
     plt.xlabel('Frekvens [Hz]')
     plt.ylabel('Amplitude [dB]')
     plt.grid()
     plt.legend()
     #plt.ylim(0,400)
-    plt.title('Dopplerspektrum: negativ hastighet')
-    plt.show()
-    #plt.savefig('frekvens_negativ', dpi = 700)
+    plt.title('Dopplerspektrum: Negativ hastighet')
+    #plt.show()
+    #plt.savefig('frekvens_neg_hastighet', dpi = 700)
  
-def compute_snr(freqs, fft_data, signal_band=(-300, -200), noise_band=(-600, -300)):
+def compute_snr(freqs, fft_data, fD):
     # Beregn spektral effekt
     power_spectrum = np.abs(fft_data)**2
 
+    signal_band=(fD-50, fD+50)
+    noise_band=(1000, 5000)
     # Indekser for signal- og støyområder
     signal_idx = np.logical_and(freqs >= signal_band[0], freqs <= signal_band[1])
     noise_idx = np.logical_and(freqs >= noise_band[0], freqs <= noise_band[1])
@@ -80,10 +85,11 @@ def compute_snr(freqs, fft_data, signal_band=(-300, -200), noise_band=(-600, -30
 
     snr_db = 10 * np.log10(P_signal / P_noise)
 
-    return snr_db
+    return snr_db, P_noise
 
 if __name__ == "__main__":
-    sample_period, data = raspi_import(sys.argv[1] if len(sys.argv) > 1 else 'Lab4/data/SR/radar_rev4.bin')
+    sample_period, data = raspi_import(sys.argv[1] if len(sys.argv) > 1 else 'Lab4/data/SR/radar_rev5.bin')
     freq, magnitude, fft_data = fft_data_func(sample_period, data)
-    #plot_fft_doppler(freq, magnitude, -233)
-    print(compute_snr(freq,fft_data))
+    snr_dB, P_noise = compute_snr(freq,fft_data, -257)
+    plot_fft_doppler(freq, magnitude, -257, P_noise)
+    print('SNR: ', snr_dB, 'Støygulv: ', P_noise)

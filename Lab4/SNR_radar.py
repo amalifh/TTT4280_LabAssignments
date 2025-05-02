@@ -16,7 +16,7 @@ def raspi_import(path, channels=2):
 
 # --- Hoveddel ---
 if __name__ == "__main__":
-    sample_period, data = raspi_import(sys.argv[1] if len(sys.argv) > 1 else 'Lab4/data/SS/radar_slow3.bin')
+    sample_period, data = raspi_import(sys.argv[1] if len(sys.argv) > 1 else 'Lab4/data/SR/radar_rev5.bin')
 
     # --- Detrend og lag komplekst signal ---
     I_signal = detrend(data[:, 0])
@@ -37,8 +37,9 @@ if __name__ == "__main__":
 #    signal_index = np.argmax(nyttig_spektrum)
  #   P_signal = nyttig_spektrum[signal_index]
 
-  #  # Velg intervall for støygulv (juster etter ditt signal)
-   ##noise_f_max = 400  # Hz
+    # Velg intervall for støygulv (juster etter ditt signal)
+    noise_f_min = 250  # Hz
+    noise_f_max = 400  # Hz
 
     # Lag en maske for frekvensområdet
     #noise_mask = (frekvenser_pos >= noise_f_min) & (frekvenser_pos <= noise_f_max)
